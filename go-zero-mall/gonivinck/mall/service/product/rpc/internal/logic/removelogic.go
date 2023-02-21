@@ -28,7 +28,7 @@ func NewRemoveLogic(ctx context.Context, svcCtx *svc.ServiceContext) *RemoveLogi
 func (l *RemoveLogic) Remove(in *product.RemoveRequest) (*product.RemoveResponse, error) {
 	// todo: add your logic here and delete this line
 	//查询商品是否存在
-	res, err := l.svcCtx.ProductModel.FindOne(in.Id)
+	res, err := l.svcCtx.ProductModel.FindOne(l.ctx, in.Id)
 	if err != nil {
 		if err == model.ErrNotFound {
 			return nil, status.Error(100, "商品不存在")
