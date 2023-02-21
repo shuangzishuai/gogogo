@@ -2,6 +2,7 @@ package logic
 
 import (
 	"context"
+	"mall/service/order/rpc/orderclient"
 
 	"mall/service/order/api/internal/svc"
 	"mall/service/order/api/internal/types"
@@ -25,6 +26,18 @@ func NewDetailLogic(ctx context.Context, svcCtx *svc.ServiceContext) *DetailLogi
 
 func (l *DetailLogic) Detail(req *types.DetailRequest) (resp *types.DetailResponse, err error) {
 	// todo: add your logic here and delete this line
+	res, err := l.svcCtx.OrderRpc.Detail(l.ctx, &orderclient.DetailRequest{
+		Id: req.Id,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return &types.DetailResponse{
+		Id:     res.Id,
+		Uid:    res.Uid,
+		Pid:    res.Pid,
+		Amount: res.Amount,
+		Status: res.Status,
+	}, nil
 
-	return
 }

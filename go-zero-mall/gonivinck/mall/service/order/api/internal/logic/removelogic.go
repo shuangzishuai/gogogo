@@ -2,6 +2,7 @@ package logic
 
 import (
 	"context"
+	"mall/service/order/rpc/orderclient"
 
 	"mall/service/order/api/internal/svc"
 	"mall/service/order/api/internal/types"
@@ -25,6 +26,9 @@ func NewRemoveLogic(ctx context.Context, svcCtx *svc.ServiceContext) *RemoveLogi
 
 func (l *RemoveLogic) Remove(req *types.RemoveRequest) (resp *types.RemoveResponse, err error) {
 	// todo: add your logic here and delete this line
-
-	return
+	_, err = l.svcCtx.OrderRpc.Remove(l.ctx, &orderclient.RemoveRequest{Id: req.Id})
+	if err != nil {
+		return nil, err
+	}
+	return &types.RemoveResponse{}, nil
 }
