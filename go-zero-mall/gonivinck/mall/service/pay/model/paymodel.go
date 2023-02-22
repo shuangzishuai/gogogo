@@ -1,7 +1,9 @@
 package model
 
 import (
+	"fmt"
 	"github.com/zeromicro/go-zero/core/stores/cache"
+	"github.com/zeromicro/go-zero/core/stores/sqlc"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
 )
 
@@ -12,6 +14,7 @@ type (
 	// and implement the added methods in customPayModel.
 	PayModel interface {
 		payModel
+		FindOneByOid(oid int64) (*Pay, error)
 	}
 
 	customPayModel struct {
@@ -23,5 +26,22 @@ type (
 func NewPayModel(conn sqlx.SqlConn, c cache.CacheConf) PayModel {
 	return &customPayModel{
 		defaultPayModel: newPayModel(conn, c),
+	}
+}
+
+func (m *defaultPayModel) FindOneByOid(oid int64) (*Pay, error) {
+	payOidKey := fmt.Sprintf("%s%v", cachePayIdPrefix, oid)
+	var resp Pay
+	err := m.QueryRow(&resp, payOidKey, func(conn sqlx.SqlConn, v interface{}) error {
+		query := fmt.Sprintf("select %s from %s where `oid` = ? limit 1", payRows, m.table)
+		return conn.QueryRow(v, query, oid)
+	})
+	switch err {
+	case nil:
+		return &resp, nil
+	case sqlc.ErrNotFound:
+		return nil, ErrNotFound
+	default:
+		return nil, err
 	}
 }
