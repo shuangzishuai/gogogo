@@ -2,6 +2,7 @@ package logic
 
 import (
 	"context"
+	"mall/service/pay/rpc/types/pay"
 
 	"mall/service/pay/api/internal/svc"
 	"mall/service/pay/api/internal/types"
@@ -25,6 +26,14 @@ func NewCreateLogic(ctx context.Context, svcCtx *svc.ServiceContext) *CreateLogi
 
 func (l *CreateLogic) Create(req *types.CreateRequest) (resp *types.CreateResponse, err error) {
 	// todo: add your logic here and delete this line
+	res, err := l.svcCtx.PayRpc.Create(l.ctx, &pay.CreateRequest{
+		Uid:    req.Uid,
+		Oid:    req.Oid,
+		Amount: req.Amount,
+	})
+	if err != nil {
+		return nil, err
+	}
 
-	return
+	return &types.CreateResponse{Id: res.Id}, nil
 }
