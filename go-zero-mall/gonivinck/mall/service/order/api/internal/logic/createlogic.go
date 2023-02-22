@@ -36,4 +36,5 @@ func (l *CreateLogic) Create(req *types.CreateRequest) (resp *types.CreateRespon
 		return nil, err
 	}
 	return &types.CreateResponse{Id: res.Id}, nil
+
 }
