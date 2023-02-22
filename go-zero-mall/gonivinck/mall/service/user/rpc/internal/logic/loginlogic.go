@@ -36,13 +36,11 @@ func (l *LoginLogic) Login(in *user.LoginRequest) (*user.LoginResponse, error) {
 		}
 		return nil, status.Error(500, err.Error())
 	}
-
 	//判断密码是否正确
 	password := crypt.PasswordEncrypt(l.svcCtx.Config.Salt, in.Password)
 	if password != res.Password {
 		return nil, status.Error(100, "密码错误")
 	}
-
 	return &user.LoginResponse{
 		Id:     res.Id,
 		Name:   res.Name,

@@ -35,7 +35,6 @@ func (l *UserInfoLogic) UserInfo(in *user.UserInfoRequest) (*user.UserInfoRespon
 		}
 		return nil, status.Error(500, err.Error())
 	}
-
 	return &user.UserInfoResponse{
 		Id:     res.Id,
 		Name:   res.Name,

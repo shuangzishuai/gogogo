@@ -15,9 +15,14 @@ Auth:
   AccessExpire: 86400
 
 UserRpc:
-  App: userapi                         # App标识
-  Token: 6jKNZbEpYGeUMAifz10gOnmoty3TV # Token标识
+  App: userapi #App标识
+  Token: 6jKNZbEpYGeUMAifz10gOnmoty3TV # Token 值
   Etcd:
     Hosts:
       - etcd:2379
     Key: user.rpc
+
+Prometheus:
+  Host: 0.0.0.0
+  Port: 9080
+  Path: /metrics

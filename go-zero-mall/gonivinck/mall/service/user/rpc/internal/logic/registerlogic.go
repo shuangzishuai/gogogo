@@ -5,6 +5,7 @@ import (
 	"google.golang.org/grpc/status"
 	"mall/common/crypt"
 	"mall/service/user/model"
+
 	"mall/service/user/rpc/internal/svc"
 	"mall/service/user/rpc/types/user"
 
@@ -27,10 +28,9 @@ func NewRegisterLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Register
 
 func (l *RegisterLogic) Register(in *user.RegisterRequest) (*user.RegisterResponse, error) {
 	// todo: add your logic here and delete this line
-	//判断用户是否注册
 	_, err := l.svcCtx.UserModel.FindOneByMobile(l.ctx, in.Mobile)
-	if err != nil {
-		return nil, status.Error(100, "用户已存在")
+	if err == nil {
+		return nil, status.Error(100, "该用户已存在")
 	}
 
 	if err == model.ErrNotFound {
@@ -44,12 +44,10 @@ func (l *RegisterLogic) Register(in *user.RegisterRequest) (*user.RegisterRespon
 		if err != nil {
 			return nil, status.Error(500, err.Error())
 		}
-
 		newUser.Id, err = res.LastInsertId()
 		if err != nil {
 			return nil, status.Error(500, err.Error())
 		}
-
 		return &user.RegisterResponse{
 			Id:     newUser.Id,
 			Name:   newUser.Name,
@@ -57,6 +55,5 @@ func (l *RegisterLogic) Register(in *user.RegisterRequest) (*user.RegisterRespon
 			Mobile: newUser.Mobile,
 		}, nil
 	}
-
 	return nil, status.Error(500, err.Error())
 }

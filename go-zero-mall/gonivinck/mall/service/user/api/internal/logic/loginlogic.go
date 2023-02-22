@@ -38,14 +38,12 @@ func (l *LoginLogic) Login(req *types.LoginRequest) (resp *types.LoginResponse, 
 
 	now := time.Now().Unix()
 	accessExpire := l.svcCtx.Config.Auth.AccessExpire
-
 	accessToken, err := jwtx.GetToken(l.svcCtx.Config.Auth.AccessSecret, now, accessExpire, res.Id)
 	if err != nil {
 		return nil, err
 	}
-
 	return &types.LoginResponse{
 		AccessToken:  accessToken,
-		AccessExpire: accessExpire,
+		AccessExpire: now + accessExpire,
 	}, nil
 }

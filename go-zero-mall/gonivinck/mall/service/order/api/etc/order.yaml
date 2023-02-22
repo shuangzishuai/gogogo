@@ -19,3 +19,8 @@ OrderRpc:
     Hosts:
       - etcd:2379
     Key: order.rpc
+
+Prometheus:
+  Host: 0.0.0.0
+  Port: 9082
+  Path: /metrics

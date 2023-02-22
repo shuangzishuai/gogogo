@@ -14,7 +14,7 @@ CacheRedis:
     Type: node
     Pass:
 
-Salt: HWVOFkGgPTryzICwd7qnJaZR9KQ2i8xe
+Salt: HWVOFkGgPTryzICwd7qnJaZR9KQ2i8xes
 
 Auth: true               # 是否开启 Auth 验证
 StrictControl: true      # 是否开启严格模式
@@ -23,3 +23,8 @@ Redis:                   # 指定 Redis 服务
   Host: redis:6379
   Type: node
   Pass:
+
+Prometheus:
+  Host: 0.0.0.0
+  Port: 9090
+  Path: /metrics

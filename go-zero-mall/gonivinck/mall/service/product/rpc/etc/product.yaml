@@ -13,3 +13,9 @@ CacheRedis:
   - Host: redis:6379
     Type: node # node可以不写，可以设为cluster
     # Pass: xxx # 如果有密码
+
+
+Prometheus:
+  Host: 0.0.0.0
+  Port: 9091
+  Path: /metrics

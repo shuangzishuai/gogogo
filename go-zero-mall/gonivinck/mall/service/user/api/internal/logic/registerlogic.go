@@ -32,10 +32,10 @@ func (l *RegisterLogic) Register(req *types.RegisterRequest) (resp *types.Regist
 		Mobile:   req.Mobile,
 		Password: req.Password,
 	})
-
 	if err != nil {
 		return nil, err
 	}
+
 	return &types.RegisterResponse{
 		Id:     res.Id,
 		Name:   res.Name,
