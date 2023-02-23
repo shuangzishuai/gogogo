@@ -24,3 +24,9 @@ Prometheus:
   Host: 0.0.0.0
   Port: 9082
   Path: /metrics
+
+Telemetry:
+  Name: order.api
+  Endpoint: http://jaeger:14268/api/traces
+  Sampler: 1.0
+  Batcher: jaeger
