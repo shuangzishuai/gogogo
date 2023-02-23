@@ -2,6 +2,7 @@ package logic
 
 import (
 	"context"
+	"github.com/zeromicro/go-zero/core/jsonx"
 	"google.golang.org/grpc/status"
 	"mall/common/crypt"
 	"mall/service/user/model"
@@ -40,6 +41,8 @@ func (l *RegisterLogic) Register(in *user.RegisterRequest) (*user.RegisterRespon
 			Mobile:   in.Mobile,
 			Password: crypt.PasswordEncrypt(l.svcCtx.Config.Salt, in.Password),
 		}
+		newUserString, err := jsonx.Marshal(newUser)
+		l.Logger.Infof("user register info %s = ", string(newUserString))
 		res, err := l.svcCtx.UserModel.Insert(l.ctx, &newUser)
 		if err != nil {
 			return nil, status.Error(500, err.Error())

@@ -44,6 +44,7 @@ services:
   mysql:
     build:
       context: ./mysql
+    command: ['mysqld', '--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci', '--skip-character-set-client-handshake'] #指定字符集
     environment:
       - TZ=${TZ}
       - MYSQL_USER=${MYSQL_USERNAME}                  # 设置 Mysql 用户名称
