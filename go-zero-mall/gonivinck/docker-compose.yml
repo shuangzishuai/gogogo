@@ -44,7 +44,7 @@ services:
   mysql:
     build:
       context: ./mysql
-    command: ['mysqld', '--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci', '--skip-character-set-client-handshake'] #指定字符集
+    command: ['mysqld', '--character-set-server=utf8mb4', '--collation-server=utf8mb4_general_ci', '--skip-character-set-client-handshake'] #指定字符集
     environment:
       - TZ=${TZ}
       - MYSQL_USER=${MYSQL_USERNAME}                  # 设置 Mysql 用户名称
@@ -137,7 +137,7 @@ services:
     environment:
       - TZ=${TZ}
     ports:
-      - "${JAEGER_PORT}:16686"                        # 设置容器16686端口映射指定宿主机端口，用于宿主机访问可视化web
+      - "${JAEGER_PORT}:14268"                        # 设置容器16686端口映射指定宿主机端口，用于宿主机访问可视化web
     networks:
       - backend
     restart: always

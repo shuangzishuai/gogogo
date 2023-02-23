@@ -4,7 +4,6 @@ import (
 	"context"
 	"github.com/zeromicro/go-zero/core/jsonx"
 	"google.golang.org/grpc/status"
-	"mall/common/crypt"
 	"mall/service/user/model"
 
 	"mall/service/user/rpc/internal/svc"
@@ -36,10 +35,12 @@ func (l *RegisterLogic) Register(in *user.RegisterRequest) (*user.RegisterRespon
 
 	if err == model.ErrNotFound {
 		newUser := model.User{
-			Name:     in.Name,
-			Gender:   in.Gender,
-			Mobile:   in.Mobile,
-			Password: crypt.PasswordEncrypt(l.svcCtx.Config.Salt, in.Password),
+			Name:   in.Name,
+			Gender: in.Gender,
+			Mobile: in.Mobile,
+			//Password: crypt.PasswordEncrypt(l.svcCtx.Config.Salt, in.Password),
+			//先不使用加密函数,否则报错Incorrect string value: 排查时数据库字符编码问题,待解决
+			Password: in.Password,
 		}
 		newUserString, err := jsonx.Marshal(newUser)
 		l.Logger.Infof("user register info %s = ", string(newUserString))

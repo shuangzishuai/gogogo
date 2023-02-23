@@ -3,7 +3,6 @@ package logic
 import (
 	"context"
 	"google.golang.org/grpc/status"
-	"mall/common/crypt"
 	"mall/service/user/model"
 
 	"mall/service/user/rpc/internal/svc"
@@ -37,7 +36,8 @@ func (l *LoginLogic) Login(in *user.LoginRequest) (*user.LoginResponse, error) {
 		return nil, status.Error(500, err.Error())
 	}
 	//判断密码是否正确
-	password := crypt.PasswordEncrypt(l.svcCtx.Config.Salt, in.Password)
+	//password := crypt.PasswordEncrypt(l.svcCtx.Config.Salt, in.Password)
+	password := in.Password
 	if password != res.Password {
 		return nil, status.Error(100, "密码错误")
 	}
