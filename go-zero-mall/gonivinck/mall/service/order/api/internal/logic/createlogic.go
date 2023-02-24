@@ -2,10 +2,12 @@ package logic
 
 import (
 	"context"
-	"mall/service/order/rpc/orderclient"
-
+	"github.com/dtm-labs/dtmgrpc"
+	"google.golang.org/grpc/status"
 	"mall/service/order/api/internal/svc"
 	"mall/service/order/api/internal/types"
+	"mall/service/order/rpc/types/order"
+	"mall/service/product/rpc/types/product"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -26,14 +28,37 @@ func NewCreateLogic(ctx context.Context, svcCtx *svc.ServiceContext) *CreateLogi
 
 func (l *CreateLogic) Create(req *types.CreateRequest) (resp *types.CreateResponse, err error) {
 	// todo: add your logic here and delete this line
-	res, err := l.svcCtx.OrderRpc.Create(l.ctx, &orderclient.CreateRequest{
+	// 获取 OrderRpc BuildTarget
+	orderRpcBusiServer, err := l.svcCtx.Config.OrderRpc.BuildTarget()
+	if err != nil {
+		return nil, status.Error(100, "订单创建异常")
+	}
+
+	//获取 ProductRpc OrderRpc
+	productRpcBusiServer, err := l.svcCtx.Config.ProductRpc.BuildTarget()
+	if err != nil {
+		return nil, status.Error(100, "订单创建异常")
+	}
+
+	//dtm服务etcd 注册地址
+	var dtmServer = "etcd://etcd:2379/dtmservice"
+	//创建一个saga协议的服务
+	gid := dtmgrpc.MustGenGid(dtmServer)
+	//创建一个saga协议的事务
+	saga := dtmgrpc.NewSagaGrpc(dtmServer, gid).Add(orderRpcBusiServer+"/orderclient.Order/Create", orderRpcBusiServer+"/orderclient.Order/CreateRevert", &order.CreateRequest{
 		Uid:    req.Uid,
 		Pid:    req.Pid,
 		Amount: req.Amount,
-		Status: req.Status,
+		Status: 0,
+	}).Add(productRpcBusiServer+"/productclient.Product/DecrStock", productRpcBusiServer+"/productclient.Product/DecrStockRevert", &product.DecrStockRequest{
+		Id:  req.Pid,
+		Num: 1,
 	})
+
+	//事务提交
+	err = saga.Submit()
 	if err != nil {
-		return nil, err
+		return nil, status.Error(500, err.Error())
 	}
-	return &types.CreateResponse{Id: res.Id}, nil
+	return &types.CreateResponse{}, nil
 }

@@ -20,6 +20,12 @@ OrderRpc:
       - etcd:2379
     Key: order.rpc
 
+ProductRpc:
+  Etcd:
+    Hosts:
+      - etcd:2379
+    Key: product.rpc
+
 Prometheus:
   Host: 0.0.0.0
   Port: 9082

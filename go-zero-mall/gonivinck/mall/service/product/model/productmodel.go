@@ -14,6 +14,7 @@ type (
 	// and implement the added methods in customProductModel.
 	ProductModel interface {
 		productModel
+		TxAdjustStock(tx *sql.Tx, id int64, data int) (sql.Result, error)
 	}
 
 	customProductModel struct {
