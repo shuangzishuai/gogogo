@@ -1,2 +1,5 @@
-
-
+# 微服务
+MicroService:
+  Driver: 'dtm-driver-gozero'           # 要处理注册/发现的驱动程序的名称
+  Target: 'etcd://etcd:2379/dtmservice' # 注册 dtm 服务的 etcd 地址
+  EndPoint: 'dtm:36790'
