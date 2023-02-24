@@ -6,6 +6,7 @@ import (
 	"github.com/dtm-labs/dtmcli"
 	"github.com/dtm-labs/dtmgrpc"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
+	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
 	"mall/service/product/rpc/internal/svc"
@@ -55,5 +56,12 @@ func (l *DecrStockLogic) DecrStock(in *product.DecrStockRequest) (*product.DecrS
 		}
 		return err
 	})
+	//这种情况是库存不足,不在重试,走回滚
+	if err == dtmcli.ErrFailure {
+		return nil, status.Error(codes.Aborted, dtmcli.ResultFailure)
+	}
+	if err != nil {
+		return nil, err
+	}
 	return &product.DecrStockResponse{}, nil
 }
