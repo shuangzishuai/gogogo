@@ -75,7 +75,7 @@ func (m *defaultOrderModel) TxInsert(tx *sql.Tx, data *Order) (sql.Result, error
 
 func (m *defaultOrderModel) TxUpdate(tx *sql.Tx, data *Order) error {
 	productIdKey := fmt.Sprintf("%s%v", cacheOrderIdPrefix, data.Id)
-	_, err := m.Exec(func(conn sqlx.SqlConn) (sql.Result, error) {
+	_, err := m.Exec(func(conn sqlx.SqlConn) (result sql.Result, err error) {
 		query := fmt.Sprintf("update %s set %s where `id` = ?", m.table, orderRowsWithPlaceHolder)
 		return tx.Exec(query, data.Uid, data.Pid, data.Amount, data.Status, data.Id)
 	}, productIdKey)
