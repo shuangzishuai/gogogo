@@ -1,8 +1,44 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
+
+func testSlice() {
+	var buffer [256]byte
+	fmt.Println(buffer)
+	var slice []byte = buffer[100:255]
+	//fmt.Println("1 = ", slice)
+	//slice = slice[5:10]
+	//slice = slice[1 : len(slice)-1]
+	//fmt.Println("2 = ", slice)
+	//slashPos := bytes.IndexRune(slice, '/')
+	//fmt.Println(slashPos)
+	//
+	//AddOneToEachElement(slice)
+	//fmt.Println("3 = ", slice)
+
+	slice = buffer[10:20]
+	fmt.Println("4 = ", slice)
+	for i := 0; i < len(slice); i++ {
+		slice[i] = byte(i)
+	}
+	fmt.Println("before", slice)
+	AddOneToEachElement(slice)
+	fmt.Println("after", slice)
+}
+
+func AddOneToEachElement(slice []byte) {
+	for i := range slice {
+		slice[i]++
+	}
+}
 
 func main() {
+	testSlice()
+}
+
+func t1() {
 	s := make([]string, 3)
 	fmt.Println("emp:", s)
 	s[0] = "a"
