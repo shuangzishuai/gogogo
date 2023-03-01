@@ -34,8 +34,63 @@ func AddOneToEachElement(slice []byte) {
 	}
 }
 
+func SubtractOneFromLength(slice []byte) []byte {
+	slice = slice[0 : len(slice)-1]
+	return slice
+}
+
+func PtrSubtractOneFromLength(slicePtr *[]byte) {
+	slice := *slicePtr
+	*slicePtr = slice[0 : len(slice)-1]
+}
+
+func testLen() {
+	var buffer [256]byte
+	slice := buffer[10:20]
+	for i := 0; i < len(slice); i++ {
+		slice[i] = byte(i)
+	}
+
+	fmt.Println("Before: len(slice) =", len(slice))
+	newSlice := SubtractOneFromLength(slice)
+	fmt.Println("After:  len(slice) =", len(slice))
+	fmt.Println("After:  len(newSlice) =", len(newSlice))
+}
+
+func testLenPtr() {
+	var buffer [256]byte
+	slice := buffer[10:20]
+	for i := 0; i < len(slice); i++ {
+		slice[i] = byte(i)
+	}
+
+	fmt.Println("Before: len(slice) =", len(slice))
+	PtrSubtractOneFromLength(&slice)
+	fmt.Println("After:  len(newSlice) =", len(slice))
+}
+
 func main() {
-	testSlice()
+	//testSlice()
+	//var buffer [256]byte
+	//fmt.Println(buffer)
+	//var slice []byte = buffer[100:255]
+	//fmt.Println("Before: len(slice) =", len(slice))
+	//newSlice := SubtractOneFromLength(slice)
+	//fmt.Println("After:  len(slice) =", len(slice))
+	//fmt.Println("After:  len(newSlice) =", len(newSlice))
+
+	//var buffer [256]byte
+	//slice := buffer[10:20]
+	//for i := 0; i < len(slice); i++ {
+	//	slice[i] = byte(i)
+	//}
+	//fmt.Println("before", slice)
+	//AddOneToEachElement(slice)
+	//fmt.Println("after", slice)
+
+	testLen()
+	fmt.Println("===============")
+	testLenPtr()
 }
 
 func t1() {
