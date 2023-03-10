@@ -24,13 +24,13 @@ func main() {
 		go worker(w, jobs, results)
 	}
 
-	for j := 1; j < numJobs; j++ {
+	for j := 1; j <= numJobs; j++ {
 		jobs <- j
 	}
 	close(jobs)
 
 	//最后，我们收集所有这些任务的返回值。 这也确保了所有的 worker 协程都已完成。 另一个等待多个协程的方法是使用WaitGroup。
-	for a := 1; a < numJobs; a++ {
+	for a := 1; a <= numJobs; a++ {
 		<-results
 	}
 }
