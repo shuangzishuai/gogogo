@@ -15,6 +15,7 @@ func worker(id int, jobs <-chan int, results chan<- int) {
 }
 
 func main() {
+	//为了使用 worker 工作池并且收集其的结果，我们需要 2 个通道。
 	const numJobs = 5
 	jobs := make(chan int, numJobs)
 	results := make(chan int, numJobs)
@@ -28,6 +29,7 @@ func main() {
 	}
 	close(jobs)
 
+	//最后，我们收集所有这些任务的返回值。 这也确保了所有的 worker 协程都已完成。 另一个等待多个协程的方法是使用WaitGroup。
 	for a := 1; a < numJobs; a++ {
 		<-results
 	}
