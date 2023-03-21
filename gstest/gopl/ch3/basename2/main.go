@@ -16,5 +16,7 @@ func basename(s string) string {
 
 func main() {
 	s := basename("c:\\foo\\bar")
+	ss := basename("c:/foo/bar")
 	fmt.Println(s)
+	fmt.Println(ss)
 }
