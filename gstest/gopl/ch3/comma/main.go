@@ -14,3 +14,5 @@ func comma(s string) string {
 func main() {
 	comma("12345")
 }
+
+//TODO 使用AI提示代码
