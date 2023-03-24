@@ -23,9 +23,39 @@ func main() {
 	// fmt.Printf("%#v\n", movies)
 
 	//转为json
-	b, err := json.Marshal(movies)
+	// b, err := json.Marshal(movies)
+	b, err := json.MarshalIndent(movies, "", "    ") //该函数有两个额外的字符串参数用于表示每一行输出的前缀和每一个层级的缩进：
 	if err != nil {
 		log.Fatalf("JSON marshaling failed: %s", err)
 	}
 	fmt.Printf("%s\n", b)
+	/*
+		[
+			{
+				"Title": "Casablanca",
+				"released": 1942,
+				"Actors": [
+					"Humphrey Bogart",
+					"Ingrid Bergman"
+				]
+			},
+			{
+				"Title": "Cool Hand Luke",
+				"released": 1967,
+				"color": true,
+				"Actors": [
+					"Paul Newman"
+				]
+			},
+			{
+				"Title": "Bullitt",
+				"released": 1968,
+				"color": true,
+				"Actors": [
+					"Steve McQueen",
+					"Jacqueline Bisset"
+				]
+			}
+		]
+	*/
 }
