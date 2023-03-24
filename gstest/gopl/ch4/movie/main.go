@@ -1,6 +1,10 @@
 package main
 
-import "fmt"
+import (
+	"encoding/json"
+	"fmt"
+	"log"
+)
 
 type Movie struct {
 	Title  string
@@ -16,5 +20,12 @@ func main() {
 		{Title: "Bullitt", Year: 1968, Color: true, Actors: []string{"Steve McQueen", "Jacqueline Bisset"}},
 	}
 
-	fmt.Printf("%#v\n", movies)
+	// fmt.Printf("%#v\n", movies)
+
+	//转为json
+	b, err := json.Marshal(movies)
+	if err != nil {
+		log.Fatalf("JSON marshaling failed: %s", err)
+	}
+	fmt.Printf("%s\n", b)
 }
