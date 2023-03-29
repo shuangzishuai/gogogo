@@ -1,5 +1,10 @@
 package main
 
+import (
+	"fmt"
+	"time"
+)
+
 type tree struct {
 	value int
 	left  *tree
@@ -38,6 +43,13 @@ func add(t *tree, value int) *tree {
 	return t
 }
 
-func main() {
+func daysAgo(t time.Time) int {
+	return int(time.Since(t).Hours() / 24)
+}
 
+func main() {
+	t := daysAgo(time.Now().AddDate(0, 0, -5))     //5天之前
+	t1 := daysAgo(time.Now().Add(-time.Hour * 48)) // 2天前
+	fmt.Printf("%d days ago\n", t)
+	fmt.Printf("%d days ago\n", t1)
 }
