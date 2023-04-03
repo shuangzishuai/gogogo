@@ -32,6 +32,11 @@ func (path Path) Distance() float64 {
 	return sum
 }
 
+func (p *Point) scaleBy(factor float64) {
+	p.X *= factor
+	p.Y *= factor
+}
+
 func main() {
 	perim := Path{
 		{1, 1},
@@ -41,4 +46,17 @@ func main() {
 		// {1, 1},
 	}
 	fmt.Println(perim.Distance())
+
+	r := &Point{1, 2}
+	r.scaleBy(2)
+	fmt.Println(r)
+
+	p := Point{1, 2}
+	pptr := &p
+	pptr.scaleBy(2)
+	fmt.Println(p)
+
+	//如果接收器p是一个Point类型的变量，并且其方法需要一个Point指针作为接收器
+	p.scaleBy(3)
+	fmt.Println(p)
 }
