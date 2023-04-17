@@ -6,13 +6,13 @@ import (
 )
 
 func main() {
-	t1 := template.New("t1")
+	t1 := template.New("t1") //我们可以创建一个新模板，并从字符串解析其正文, 模板是静态文本和包含在”动作“中用于动态插入内容的混合体。
 	t1, err := t1.Parse("Value is{{.}}\n")
 	if err != nil {
 		panic(err)
 	}
 
-	t1 = template.Must(t1.Parse("Value: {{.}}\n"))
+	t1 = template.Must(t1.Parse("Value: {{.}}\n")) //我们可以使用 template.Must 函数，在 Parse 错误时返回 panic。 这对于在全局作用域中初始化的模板非常有用。
 
 	t1.Execute(os.Stdout, "some text")
 	t1.Execute(os.Stdout, 5)
