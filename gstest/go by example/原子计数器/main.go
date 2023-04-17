@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"sync"
-	"sync/atomic"
 )
 
 func main() {
@@ -16,8 +15,8 @@ func main() {
 
 		go func() {
 			for c := 0; c < 1000; c++ {
-				atomic.AddUint64(&ops, 1)
-				// ops++ //非原子性操作，最后的结果会得到不同的数字
+				// atomic.AddUint64(&ops, 1)
+				ops++ //非原子性操作，最后的结果会得到不同的数字 go run -race main.go
 			}
 			wg.Done()
 		}()
