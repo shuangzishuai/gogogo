@@ -24,7 +24,7 @@ func main() {
 	_, err = f.Write([]byte{1, 2, 3, 4})
 	check(err)
 
-	dname, err := os.MkdirTemp("", "sampledir")
+	dname, _ := os.MkdirTemp("", "sampledir")
 	fmt.Println("Temp dir name:", dname)
 
 	defer os.RemoveAll(dname)
