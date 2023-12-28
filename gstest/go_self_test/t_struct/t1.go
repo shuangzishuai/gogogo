@@ -2,10 +2,18 @@ package main
 
 import (
 	"fmt"
+	"time"
 	"unsafe"
 )
 
 type Set[K comparable] map[K]struct{}
+
+type Person interface {
+	SayHello()
+	Sleep()
+}
+
+type CMY struct{}
 
 func (s Set[K]) Add(val K) {
 	s[val] = struct{}{}
@@ -45,10 +53,13 @@ func main() {
 	// - 作为方法接收器
 
 	//实现Set集合类型
-	useSet()
+	// useSet()
 
 	//用于通道信号
+	// useChan()
 
+	//作为方法接收器
+	useByReciver()
 }
 
 func useSet() {
@@ -58,4 +69,33 @@ func useSet() {
 
 	set.Remove("shuai")
 	fmt.Println(set.Contains("shuai")) //false
+}
+
+func useChan() {
+	quit := make(chan struct{})
+	go func() {
+		fmt.Println("working")
+		time.Sleep(time.Second * 3)
+		close(quit)
+	}()
+
+	<-quit
+	fmt.Println("已经收到信号，退出中...")
+
+}
+
+func (c CMY) SayHello() {
+	fmt.Println("hello")
+}
+
+func (c CMY) Sleep() {
+	fmt.Println("sleep")
+}
+
+// 用作方法接收器
+// 有时候我们需要创建一组方法集的实现（一般来说是实现一个接口），但并不需要在这个实现中存储任何数据，这种情况下，我们可以使用空结构体来实现
+func useByReciver() {
+	p := new(CMY)
+	p.SayHello() //hello
+	p.Sleep()    //sleep
 }
