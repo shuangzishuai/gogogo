@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"container/list"
+	"fmt"
+)
 
 type TreeNode struct {
 	Val   int
@@ -8,6 +11,7 @@ type TreeNode struct {
 	Right *TreeNode
 }
 
+// 递归实现
 func inOrderTraversal(root *TreeNode) (res []int) {
 	var inOrder func(node *TreeNode)
 	inOrder = func(node *TreeNode) {
@@ -19,6 +23,29 @@ func inOrderTraversal(root *TreeNode) (res []int) {
 		inOrder(node.Right)
 	}
 	inOrder(root)
+	return res
+}
+
+// 迭代法
+func inOrderTraversalByStack(root *TreeNode) []int {
+	var res []int
+	if root == nil {
+		return res
+	}
+	st := list.New()
+	cur := root
+
+	for cur != nil || st.Len() > 0 {
+		if cur != nil {
+			st.PushBack(cur)
+			cur = cur.Left
+		} else {
+			cur = st.Remove(st.Back()).(*TreeNode)
+			res = append(res, cur.Val)
+			cur = cur.Right
+		}
+	}
+
 	return res
 }
 
