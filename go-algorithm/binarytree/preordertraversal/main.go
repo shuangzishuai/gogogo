@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"container/list"
+	"fmt"
+)
 
 type TreeNode struct {
 	Val   int
@@ -8,7 +11,7 @@ type TreeNode struct {
 	Right *TreeNode
 }
 
-// 前序遍历
+// //递归实现 前序遍历
 func preorderTraversal(root *TreeNode) (res []int) {
 	var traversal func(node *TreeNode)
 	traversal = func(node *TreeNode) {
@@ -23,6 +26,28 @@ func preorderTraversal(root *TreeNode) (res []int) {
 	return res
 }
 
+func preOrderTraversalByStack(root *TreeNode) []int {
+	var res []int
+	if root == nil {
+		return res
+	}
+
+	st := list.New()
+	st.PushBack(root)
+
+	for st.Len() > 0 {
+		node := st.Remove(st.Back()).(*TreeNode)
+		res = append(res, node.Val)
+		if node.Right != nil {
+			st.PushBack(node.Right)
+		}
+		if node.Left != nil {
+			st.PushBack(node.Left)
+		}
+	}
+	return res
+}
+
 func main() {
 	var root TreeNode
 	root.Val = 1
@@ -30,5 +55,6 @@ func main() {
 	root.Right = &TreeNode{3, nil, nil}
 	root.Left.Left = &TreeNode{4, nil, nil}
 	root.Left.Right = &TreeNode{5, nil, nil}
-	fmt.Println(preorderTraversal(&root))
+	fmt.Println(preorderTraversal(&root))        //[1 2 4 5 3]
+	fmt.Println(preOrderTraversalByStack(&root)) //[1 2 4 5 3]
 }
