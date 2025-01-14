@@ -57,4 +57,5 @@ func main() {
 	root.Left.Left = &TreeNode{4, nil, nil}
 	root.Left.Right = &TreeNode{5, nil, nil}
 	fmt.Println(inOrderTraversal(&root))
+	fmt.Println(inOrderTraversalByStack(&root))
 }
