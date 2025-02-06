@@ -18,7 +18,7 @@ func rightSideView(root *TreeNode) []int {
 	for queue.Len() > 0 {
 		length := queue.Len()
 		for i := 0; i < length; i++ {
-			node := queue.Remove(queue.Front).(*TreeNode)
+			node := queue.Remove(queue.Front()).(*TreeNode)
 			if node.Left != nil {
 				queue.PushBack(node.Left)
 			}
