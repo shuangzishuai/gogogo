@@ -13,7 +13,7 @@ func averageOfLevels(root *TreeNode) []float64 {
 		return nil
 	}
 
-	res := make([]float64, 0)
+	res := make([]float64, 0, 32)
 	queue := list.New()
 	queue.PushBack(root)
 

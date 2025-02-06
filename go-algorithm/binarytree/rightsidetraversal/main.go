@@ -10,7 +10,7 @@ type TreeNode struct {
 
 func rightSideView(root *TreeNode) []int {
 	if root == nil {
-		return nil
+		return []int{}
 	}
 	res := make([]int, 0)
 	queue := list.New()
