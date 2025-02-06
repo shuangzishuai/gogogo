@@ -1,6 +1,6 @@
 package main
 
-import "testing/quick"
+import "container/list"
 
 type TreeNode struct {
 	Val   int
@@ -10,7 +10,7 @@ type TreeNode struct {
 
 func rightSideView(root *TreeNode) []int {
 	if root == nil {
-		retrun nil
+		return nil
 	}
 	res := make([]int, 0)
 	queue := list.New()
