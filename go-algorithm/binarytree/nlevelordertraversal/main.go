@@ -21,6 +21,9 @@ func levelorder(root *rootNode) [][]int {
 		length := queue.Len()
 		var tmp []int
 		for T := 0; T < length; T++ {
+			// 从队列头部移除一个节点并转换为rootNode类型
+			// queue.Remove(queue.Front()) 从队列中移除并返回第一个元素
+			// 由于queue存储的是interface{}类型，需要用类型断言.(*rootNode)转换回rootNode指针类型
 			myNode := queue.Remove(queue.Front()).(*rootNode)
 			tmp = append(tmp, myNode.Val)
 			for i := 0; i < len(myNode.Children); i++ {
