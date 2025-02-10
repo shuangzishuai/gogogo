@@ -20,7 +20,7 @@ func invertTreee(root *treeNode) *treeNode {
 	return root
 }
 
-func traversalTree(root *treeNode) []int {
+func postTraversalTree(root *treeNode) []int {
 	var traversal func(node *treeNode)
 	res := []int{}
 	traversal = func(node *treeNode) {
@@ -57,10 +57,10 @@ func main() {
 			},
 		},
 	}
-	orgRoot := traversalTree(root)
+	orgRoot := postTraversalTree(root)
 	fmt.Printf("original tree = %v", orgRoot)
 	invertRes := invertTreee(root)
 	// fmt.Printf("invert result = %v", invertRes)
-	invertRoot := traversalTree(invertRes)
+	invertRoot := postTraversalTree(invertRes)
 	fmt.Printf("invert tree = %v", invertRoot)
 }
